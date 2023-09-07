@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'checkpoints' })
 export class Checkpoint {
-  @PrimaryColumn({ type: 'varchar', length: 100, nullable: false })
+  @PrimaryColumn({ type: 'varchar', length: 100 })
   trackingNumber: string;
 
   @Column({ type: 'varchar', length: 60, nullable: false })

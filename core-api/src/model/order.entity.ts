@@ -1,12 +1,13 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Checkpoint } from './checkpoint.entity';
 
 @Entity({ name: 'orders' })
 export class Order {
   @PrimaryColumn({ type: 'varchar', length: 60, nullable: false })
   orderNo!: string;
 
-  @Column({ type: 'varchar', length: 60, nullable: true })
-  trackingNumber!: string | null;
+  @OneToMany(() => Checkpoint, (checkpoint) => checkpoint.trackingNumber)
+  trackingNumber: string | null;
 
   @Column({ type: 'varchar', length: 30, nullable: true })
   courier: string | null;
