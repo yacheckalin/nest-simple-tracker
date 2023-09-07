@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Customer } from './model/customer.entity';
 import { Order } from './model/order.entity';
+import { Checkpoint } from './model/checkpoint.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { Order } from './model/order.entity';
         username: config.get('POSTGRES_USER'),
         password: config.get('POSTGRES_PASSWORD'),
         database: config.get('POSTGRES_DB'),
-        entities: [Customer, Order],
+        entities: [Customer, Order, Checkpoint],
         synchronize: true,
       }),
     }),

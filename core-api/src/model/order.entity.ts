@@ -6,21 +6,21 @@ export class Order {
   orderNo!: string;
 
   @Column({ type: 'varchar', length: 60, nullable: true })
-  trackingNumber!: string;
+  trackingNumber!: string | null;
 
   @Column({ type: 'varchar', length: 30, nullable: true })
-  courier: string;
+  courier: string | null;
 
-  @Column({ type: 'varchar', length: 20, nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: false })
   street: string;
 
   @Column()
   zeepCode: number;
 
-  @Column({ type: 'varchar', length: 30, nullable: true })
+  @Column({ type: 'varchar', length: 30, nullable: false })
   city: string;
 
-  @Column({ type: 'varchar', length: 60, nullable: true })
+  @Column({ type: 'varchar', length: 60, nullable: false })
   destinationCountryIso3: string;
 
   @Column({ type: 'varchar', length: 60, nullable: false })
@@ -30,7 +30,7 @@ export class Order {
   articleNo: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  articleImageUrl: string;
+  articleImageUrl: string | null;
 
   @Column()
   quantity: number;
