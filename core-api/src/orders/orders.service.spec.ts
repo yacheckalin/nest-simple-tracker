@@ -15,7 +15,7 @@ describe('OrdersService', () => {
           provide: OrdersService,
           useFactory: () => ({
             getAllOrders: jest.fn(() => []),
-            getOrderById: jest.fn(() => {}),
+            getOrderByNumber: jest.fn(() => {}),
             getOrdersByCustomerEmail: jest.fn(() => []),
             createOrder: jest.fn(() => {}),
             importCSV: jest.fn(() => []),
@@ -37,10 +37,10 @@ describe('OrdersService', () => {
     expect(getAllOrdersSpy).toHaveBeenCalled();
   });
   it('should call getOrderById method', async () => {
-    const getOrderByIdSpy = jest.spyOn(service, 'getOrderById');
-    service.getOrderById('1111');
-    expect(getOrderByIdSpy).toHaveBeenCalled();
-    expect(getOrderByIdSpy).toHaveBeenCalledWith('1111');
+    const getOrderByNumberSpy = jest.spyOn(service, 'getOrderByNumber');
+    service.getOrderByNumber('1111');
+    expect(getOrderByNumberSpy).toHaveBeenCalled();
+    expect(getOrderByNumberSpy).toHaveBeenCalledWith('1111');
   });
   it('should call getOrdersByCustomerEmail method', async () => {
     const getOrdersByCustomerEmailSpy = jest.spyOn(

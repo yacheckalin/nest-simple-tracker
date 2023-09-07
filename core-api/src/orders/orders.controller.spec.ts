@@ -18,7 +18,7 @@ describe('OrdersController', () => {
           provide: OrdersService,
           useFactory: () => ({
             getAllOrders: jest.fn(() => []),
-            getOrderById: jest.fn(() => {}),
+            getOrderByNumber: jest.fn(() => {}),
             getOrdersByCustomerEmail: jest.fn(() => []),
             createOrder: jest.fn(() => {}),
             importCSV: jest.fn(() => []),
@@ -44,8 +44,8 @@ describe('OrdersController', () => {
   });
   it('calling getOrderById method', () => {
     controller.getOrderById('id');
-    expect(service.getOrderById).toHaveBeenCalled();
-    expect(service.getOrderById).toHaveBeenCalledWith('id');
+    expect(service.getOrderByNumber).toHaveBeenCalled();
+    expect(service.getOrderByNumber).toHaveBeenCalledWith('id');
   });
   it('calling getOrdersByCustomerEmail method', () => {
     const dto = new FilterOrdersDto();
