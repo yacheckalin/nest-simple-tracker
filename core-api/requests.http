@@ -2,4 +2,12 @@
 GET http://localhost:3000/customers
 
 ### Get customer by ID
-GET http://localhost:3000/customers/100
+GET http://localhost:3000/customers/1
+
+### Create new customer
+POST http://localhost:3000/customers
+Content-Type: application/json
+
+{
+  "email": "something@something.ss"
+}
