@@ -90,12 +90,8 @@ export class CheckpointsService {
         const order = await this.orderRepo.findOne({
           where: { trackingNumber: item.tracking_number },
         });
-        if (!order) {
-          throw new BadRequestException('Could not found order ...');
-        }
 
-        // only if it is not in DB yet
-        if (!check) {
+        if (!check && order) {
           const newItem = new Checkpoint().toEntity(item);
           newItem.order = order;
 
