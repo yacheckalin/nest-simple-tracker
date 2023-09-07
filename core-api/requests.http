@@ -17,7 +17,7 @@ GET http://localhost:3000/orders
 
 
 ### Get order by ID
-GET http://localhost:3000/orders/1
+GET http://localhost:3000/orders/ORD-123-2018
 
 
 ### Get all orders by customer email
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 {
   "orderNumber": "something",
-  "trackingNumber": "1231233",
+  "trackingNumber": "1231233222",
   "courier": "",
   "street": "",
   "zipCode": 1111,
@@ -47,6 +47,8 @@ Content-Type: application/json
   "productName":""
 }
 
+### Get all checkpoints
+GET http://localhost:3000/checkpoints
 
 ### Get all checkpoints by order_number
 GET http://localhost:3000/checkpoints/something
@@ -57,11 +59,11 @@ Content-Type: application/json
 
 {
   "orderNumber": "something",
-  "trackingNumber": "123123",
+  "trackingNumber": "123123222232",
   "location":"",
   "status": "status",
   "statusText":"some status text",
   "statusDetail": "some status detaied version",
-  "timestamp": 1694096143
+  "timestamp": 16940961423
 
 }

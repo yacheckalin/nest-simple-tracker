@@ -8,6 +8,8 @@ import { Checkpoint } from '../model/checkpoint.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCheckpointDto } from './dto/create-checkpoint.dto';
 import { Order } from '../model/order.entity';
+import { Readable } from 'stream';
+import { parse } from 'papaparse';
 
 @Injectable()
 export class CheckpointsService {
@@ -16,14 +18,21 @@ export class CheckpointsService {
     @InjectRepository(Order) private readonly orderRepo: Repository<Order>,
   ) {}
 
+  async getAllCheckpoints(): Promise<Checkpoint[] | []> {
+    return await this.repo.find({ relations: { order: true } });
+  }
+
   async getAllCheckpointsByOrderNumber(
     order: string,
   ): Promise<Checkpoint[] | []> {
+    console.log(order);
     const checkpoints = await this.repo
       .createQueryBuilder('checkpoints')
-      .leftJoinAndSelect('checkpoints.order', 'orders')
+      .innerJoinAndSelect('checkpoints.order', 'orders')
       .where('orders.orderNumber = :order', { order })
+      .orderBy('checkpoints.timestamp', 'DESC')
       .getMany();
+
     return checkpoints;
   }
 
@@ -38,9 +47,68 @@ export class CheckpointsService {
       );
     }
     try {
-      const checkpoint = await this.repo.create({ ...body, order });
+      const checkpoint = await this.repo.create({
+        ...body,
+        order,
+      });
 
       return this.repo.save(checkpoint);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  async importCSV(file: Express.Multer.File): Promise<Checkpoint[] | []> {
+    try {
+      const buffer = Buffer.from(file.buffer.toString('base64'), 'base64');
+      const dataStream = Readable.from(buffer);
+
+      const csvToJson = (
+        file,
+      ): Promise<{ data: any; errors: any; meta: any }> =>
+        new Promise((complete, error) =>
+          parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            dynamicTyping: true,
+            complete,
+            error,
+          }),
+        );
+
+      const { data } = await csvToJson(dataStream);
+      const result = [];
+      for (const item of data) {
+        // check the data with the same trackingNumber
+        const check = await this.repo.findOne({
+          where: {
+            trackingNumber: item.tracking_number,
+            timestamp: item.timestamp,
+          },
+        });
+        // check for order by trackingNumber
+        const order = await this.orderRepo.findOne({
+          where: { trackingNumber: item.tracking_number },
+        });
+        if (!order) {
+          throw new BadRequestException('Could not found order ...');
+        }
+
+        // only if it is not in DB yet
+        if (!check) {
+          const newItem = new Checkpoint().toEntity(item);
+          newItem.order = order;
+
+          const checkpoint = await this.repo.save({
+            ...newItem,
+          });
+          if (checkpoint) {
+            result.push(checkpoint);
+          }
+        }
+      }
+
+      return result;
     } catch (e) {
       throw new BadRequestException(e.message);
     }

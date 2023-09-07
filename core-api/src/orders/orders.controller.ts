@@ -29,8 +29,8 @@ export class OrdersController {
 
   @ApiOperation({ summary: 'Get order by order_id_number' })
   @Get('/:id')
-  getOrderById(@Param('id') id: string): Promise<Order> {
-    return this.ordersService.getOrderById(id);
+  getOrderById(@Param('id') orderNumber: string): Promise<Order> {
+    return this.ordersService.getOrderByNumber(orderNumber);
   }
 
   @ApiOperation({ summary: 'Get all orders by customer email' })

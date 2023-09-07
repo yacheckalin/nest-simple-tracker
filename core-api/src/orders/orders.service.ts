@@ -22,27 +22,33 @@ export class OrdersService {
     return orders;
   }
 
-  async getOrderById(id: string): Promise<Order> {
-    const order = await this.repo.findOne({ where: { orderNumber: id } });
+  async getOrderByNumber(orderNumber: string): Promise<Order> {
+    const order = await this.repo.findOne({ where: { orderNumber } });
     if (!order) {
-      throw new NotFoundException(`Cound not found order with number: ${id}`);
+      throw new NotFoundException(
+        `Cound not found order with number: ${orderNumber}`,
+      );
     }
 
     return order;
   }
 
   async getOrdersByCustomerEmail(body: FilterOrdersDto): Promise<Order[] | []> {
-    const orders = await this.repo.find({
-      where: { email: body.email },
-      relations: { checkpoints: true },
-    });
-    return orders;
+    try {
+      const orders = await this.repo.find({
+        where: { email: body.email },
+        relations: { checkpoints: true },
+      });
+      return orders;
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   async createOrder(body: CreateOrderDto): Promise<Order> {
     try {
       const order = await this.repo.create(body);
-      return this.repo.save(order);
+      return await this.repo.save(order);
     } catch (e) {
       throw new BadRequestException(e.message);
     }

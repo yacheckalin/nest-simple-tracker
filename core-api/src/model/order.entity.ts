@@ -20,7 +20,7 @@ export class Order {
   @Column({ type: 'varchar', length: 60, nullable: false })
   orderNumber!: string;
 
-  @OneToMany(() => Checkpoint, (checkpoint) => checkpoint.order)
+  @OneToMany(() => Checkpoint, (checkpoint) => checkpoint.trackingNumber)
   checkpoints: Checkpoint[];
 
   @Column({ type: 'varchar', length: 30, nullable: true })

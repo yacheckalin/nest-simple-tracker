@@ -63,33 +63,24 @@ Actors [client, admin]
 - as an admin, I want to be able to add new order by API via import csv-file
 - as an admin, I want to be able to add checkpoints info by API call via import csv-file
 
-## Assumptions
-
-- There could be several tracking_number for the item with one orderNumber
-
-  > This extend functionality and give us a chance to send several articles for one order from different places / warehouses at a time. The detailed information with specific tracking_number will be reflected on the order details page
-
-- The checkpoints groups by orderNumber and trackingNumber
-
 ## Non-happy pathes
 
 ##### Import orders
 
-- if order is already in the DB we ignore it
+- if order is already in the DB (orderNumber, trackingNumber, articleNumber - constraint) we ignore it
 - if order details do not pass validation check the transaction will be rollback
 
 ##### Add orders
 
-- if you add order with the same orderNumber and trackingNumber
-  > You can add several order items with the same orderNumber but different trackingNumbers at the same time
+- if add order with the same orderNumber, trackingNumber, articleNumber
 
 ##### Add checkpoints
 
-- if you add checkpoint to the order, with orderNumber which doesn't exists yet
+- if add checkpoint to the order, with trackingNumber which doesn't exists yet (there is no order yet)
 
 ##### Import checkpoints
 
-- if checkpoint is already in the DB we ignore it
+- if checkpoint is already in the DB (trackingNumber, timestamp) we ignore it
 - if one of the checkpoint is not pass validation check the transaction will be rollback
 
 ## API Documentation
