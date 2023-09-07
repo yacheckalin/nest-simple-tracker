@@ -11,3 +11,38 @@ Content-Type: application/json
 {
   "email": "something@something.ss"
 }
+
+### Get all orders
+GET http://localhost:3000/orders
+
+
+### Get order by ID
+GET http://localhost:3000/orders/1
+
+
+### Get all orders by customer email
+POST http://localhost:3000/orders/filter
+Content-Type: application/json
+
+{
+  "email": "something@something.ss"
+}
+
+### Create new order
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "orderNo": "something",
+  "trackingNumber": "",
+  "courier": "",
+  "street": "",
+  "zeepCode": 1111,
+  "city":"",
+  "destinationCountryIso3": "",
+  "email":"test@test.tt",
+  "articleNo": "",
+  "articleImageUrl":"",
+  "quantity": 2,
+  "productName":""
+}
