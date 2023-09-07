@@ -18,6 +18,7 @@ describe('OrdersService', () => {
             getOrderById: jest.fn(() => {}),
             getOrdersByCustomerEmail: jest.fn(() => []),
             createOrder: jest.fn(() => {}),
+            importCSV: jest.fn(() => []),
           }),
         },
       ],
@@ -57,5 +58,11 @@ describe('OrdersService', () => {
     service.createOrder(dto);
     expect(createOrderSpy).toHaveBeenCalled();
     expect(createOrderSpy).toHaveBeenCalledWith(dto);
+  });
+  it('should call importCSV method', async () => {
+    const importCSVSpy = jest.spyOn(service, 'importCSV');
+    service.importCSV({} as Express.Multer.File);
+    expect(importCSVSpy).toHaveBeenCalled();
+    expect(importCSVSpy).toHaveBeenCalledWith({});
   });
 });

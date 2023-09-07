@@ -33,15 +33,15 @@ POST http://localhost:3000/orders
 Content-Type: application/json
 
 {
-  "orderNo": "something",
-  "trackingNumber": "123123",
+  "orderNumber": "something",
+  "trackingNumber": "1231233",
   "courier": "",
   "street": "",
-  "zeepCode": 1111,
+  "zipCode": 1111,
   "city":"",
   "destinationCountryIso3": "",
   "email":"test@test.tt",
-  "articleNo": "",
+  "articleNumber": "",
   "articleImageUrl":"",
   "quantity": 2,
   "productName":""

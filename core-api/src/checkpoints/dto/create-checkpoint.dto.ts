@@ -5,30 +5,30 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateCheckpointDto {
   @ApiProperty({ required: true })
   @IsString()
-  orderNumber: string;
+  orderNumber!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  trackingNumber: string;
+  trackingNumber!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  location: string;
+  location!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  status: string;
+  status!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  statusText: string;
+  statusText!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  statusDetail: string;
+  statusDetail!: string;
 
   @ApiProperty({ required: true })
   @Type(() => Date)
   @IsDate()
-  timestamp: Date;
+  timestamp!: Date;
 }

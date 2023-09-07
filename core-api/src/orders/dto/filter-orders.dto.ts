@@ -5,5 +5,5 @@ export class FilterOrdersDto {
   @ApiProperty({ required: true })
   @IsEmail()
   @IsOptional()
-  email: string;
+  email!: string;
 }

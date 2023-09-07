@@ -4,5 +4,5 @@ import { IsEmail } from 'class-validator';
 export class CreateCustomerDto {
   @ApiProperty({ required: true })
   @IsEmail()
-  email: string;
+  email!: string;
 }

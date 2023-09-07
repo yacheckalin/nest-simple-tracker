@@ -63,7 +63,7 @@ Actors [client, admin]
 - as an admin, I want to be able to add new order by API via import csv-file
 - as an admin, I want to be able to add checkpoints info by API call via import csv-file
 
-## Asumptions
+## Assumptions
 
 - There could be several tracking_number for the item with one orderNumber
 

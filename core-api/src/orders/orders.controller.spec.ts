@@ -21,6 +21,7 @@ describe('OrdersController', () => {
             getOrderById: jest.fn(() => {}),
             getOrdersByCustomerEmail: jest.fn(() => []),
             createOrder: jest.fn(() => {}),
+            importCSV: jest.fn(() => []),
           }),
         },
       ],
@@ -57,5 +58,10 @@ describe('OrdersController', () => {
     controller.createOrder(dto);
     expect(service.createOrder).toHaveBeenCalled();
     expect(service.createOrder).toHaveBeenCalledWith(dto);
+  });
+  it('calling importOrders method', () => {
+    controller.importOrders({} as Express.Multer.File);
+    expect(service.importCSV).toHaveBeenCalled();
+    expect(service.importCSV).toHaveBeenCalledWith({});
   });
 });

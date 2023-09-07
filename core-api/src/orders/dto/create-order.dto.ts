@@ -4,11 +4,11 @@ import { IsEmail, IsNumber, IsString } from 'class-validator';
 export class CreateOrderDto {
   @ApiProperty({ required: true })
   @IsString()
-  orderNo!: string;
+  orderNumber!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  trackingNumber: string;
+  trackingNumber!: string;
 
   @ApiProperty({ required: true })
   @IsString()
@@ -16,19 +16,19 @@ export class CreateOrderDto {
 
   @ApiProperty({ required: true })
   @IsString()
-  street: string;
+  street!: string;
 
   @ApiProperty({ required: true })
   @IsNumber()
-  zeepCode: number;
+  zipCode!: number;
 
   @ApiProperty({ required: true })
   @IsString()
-  city: string;
+  city!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  destinationCountryIso3: string;
+  destinationCountryIso3!: string;
 
   @ApiProperty({ required: true })
   @IsEmail()
@@ -36,17 +36,17 @@ export class CreateOrderDto {
 
   @ApiProperty({ required: true })
   @IsString()
-  articleNo: string;
+  articleNumber!: string;
 
   @ApiProperty({ required: true })
   @IsString()
-  articleImageUrl: string;
+  articleImageUrl!: string;
 
   @ApiProperty({ required: true })
   @IsNumber()
-  quantity: number;
+  quantity!: number;
 
   @ApiProperty({ required: true })
   @IsString()
-  productName: string;
+  productName!: string;
 }

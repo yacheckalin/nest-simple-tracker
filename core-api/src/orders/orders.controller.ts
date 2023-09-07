@@ -1,9 +1,20 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  ParseFilePipeBuilder,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Order } from '../model/order.entity';
 import { FilterOrdersDto } from './dto/filter-orders.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Orders')
 @Controller('orders')
@@ -34,5 +45,34 @@ export class OrdersController {
   @Post()
   createOrder(@Body() body: CreateOrderDto): Promise<Order> {
     return this.ordersService.createOrder(body);
+  }
+
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiOperation({ summary: 'Import data via CSV' })
+  @Post('/import-csv')
+  @UseInterceptors(FileInterceptor('file'))
+  importOrders(
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({ fileType: 'csv' })
+        .build({
+          fileIsRequired: true,
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    file: Express.Multer.File,
+  ): Promise<Order[] | []> {
+    return this.ordersService.importCSV(file);
   }
 }

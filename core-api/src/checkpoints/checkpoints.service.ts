@@ -1,10 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Checkpoint } from '../model/checkpoint.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCheckpointDto } from './dto/create-checkpoint.dto';
 import { Order } from '../model/order.entity';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class CheckpointsService {
@@ -19,14 +22,14 @@ export class CheckpointsService {
     const checkpoints = await this.repo
       .createQueryBuilder('checkpoints')
       .leftJoinAndSelect('checkpoints.order', 'orders')
-      .where('orders.orderNo = :order', { order })
+      .where('orders.orderNumber = :order', { order })
       .getMany();
     return checkpoints;
   }
 
   async createCheckpoint(body: CreateCheckpointDto): Promise<Checkpoint> {
     const order = await this.orderRepo.findOne({
-      where: { orderNo: body.orderNumber },
+      where: { orderNumber: body.orderNumber },
     });
 
     if (!order) {
@@ -34,8 +37,12 @@ export class CheckpointsService {
         `Could not found the order with number : ${body.orderNumber}`,
       );
     }
-    const checkpoint = await this.repo.create({ ...body, order });
+    try {
+      const checkpoint = await this.repo.create({ ...body, order });
 
-    return this.repo.save(checkpoint);
+      return this.repo.save(checkpoint);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }
