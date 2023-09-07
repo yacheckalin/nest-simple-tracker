@@ -11,7 +11,7 @@ describe('CheckpointsService', () => {
         {
           provide: CheckpointsService,
           useFactory: () => ({
-            getAllCheckpointsByTrackingNumber: jest.fn(() => []),
+            getAllCheckpointsByOrderNumber: jest.fn(() => []),
           }),
         },
       ],
@@ -27,15 +27,13 @@ describe('CheckpointsService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should call getAllCheckpointsByTrackingNumber method', async () => {
-    const getAllCheckpointsByTrackingNumberSpy = jest.spyOn(
+  it('should call getAllCheckpointsByOrderNumber method', async () => {
+    const getAllCheckpointsByOrderIdSpy = jest.spyOn(
       service,
-      'getAllCheckpointsByTrackingNumber',
+      'getAllCheckpointsByOrderNumber',
     );
-    service.getAllCheckpointsByTrackingNumber('tracking_number');
-    expect(getAllCheckpointsByTrackingNumberSpy).toHaveBeenCalled();
-    expect(getAllCheckpointsByTrackingNumberSpy).toHaveBeenCalledWith(
-      'tracking_number',
-    );
+    service.getAllCheckpointsByOrderNumber('order_id');
+    expect(getAllCheckpointsByOrderIdSpy).toHaveBeenCalled();
+    expect(getAllCheckpointsByOrderIdSpy).toHaveBeenCalledWith('order_id');
   });
 });

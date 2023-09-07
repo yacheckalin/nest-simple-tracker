@@ -25,7 +25,7 @@ POST http://localhost:3000/orders/filter
 Content-Type: application/json
 
 {
-  "email": "something@something.ss"
+  "email": "test@test.tt"
 }
 
 ### Create new order
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 {
   "orderNo": "something",
-  "trackingNumber": "",
+  "trackingNumber": "123123",
   "courier": "",
   "street": "",
   "zeepCode": 1111,
@@ -45,4 +45,23 @@ Content-Type: application/json
   "articleImageUrl":"",
   "quantity": 2,
   "productName":""
+}
+
+
+### Get all checkpoints by order_number
+GET http://localhost:3000/checkpoints/something
+
+### Create checkpoint
+POST http://localhost:3000/checkpoints
+Content-Type: application/json
+
+{
+  "orderNumber": "something",
+  "trackingNumber": "123123",
+  "location":"",
+  "status": "status",
+  "statusText":"some status text",
+  "statusDetail": "some status detaied version",
+  "timestamp": 1694096143
+
 }

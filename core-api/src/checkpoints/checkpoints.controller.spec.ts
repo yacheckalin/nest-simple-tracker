@@ -14,7 +14,7 @@ describe('CheckpointsController', () => {
         {
           provide: CheckpointsService,
           useFactory: () => ({
-            getAllCheckpointsByTrackingNumber: jest.fn(() => []),
+            getAllCheckpointsByOrderNumber: jest.fn(() => []),
           }),
         },
       ],
@@ -32,11 +32,9 @@ describe('CheckpointsController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('calling getAllCheckpointsByTrackingNumber method', () => {
-    controller.getAllCheckpointsByTrackingNumber('111');
-    expect(service.getAllCheckpointsByTrackingNumber).toHaveBeenCalled();
-    expect(service.getAllCheckpointsByTrackingNumber).toHaveBeenCalledWith(
-      '111',
-    );
+  it('calling getAllCheckpointsByOrderId method', () => {
+    controller.getAllCheckpointsByOrderNumber('111');
+    expect(service.getAllCheckpointsByOrderNumber).toHaveBeenCalled();
+    expect(service.getAllCheckpointsByOrderNumber).toHaveBeenCalledWith('111');
   });
 });

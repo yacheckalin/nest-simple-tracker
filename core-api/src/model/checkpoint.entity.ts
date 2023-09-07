@@ -1,9 +1,13 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from './order.entity';
 
 @Entity({ name: 'checkpoints' })
 export class Checkpoint {
-  @PrimaryColumn({ type: 'varchar', length: 100 })
-  trackingNumber: string;
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ManyToOne(() => Order, (order) => order.trackingNumber)
+  order: Order;
 
   @Column({ type: 'varchar', length: 60, nullable: false })
   location: string;

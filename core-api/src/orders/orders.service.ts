@@ -26,7 +26,10 @@ export class OrdersService {
   }
 
   async getOrdersByCustomerEmail(body: FilterOrdersDto): Promise<Order[] | []> {
-    const orders = await this.repo.find({ where: { email: body.email } });
+    const orders = await this.repo.find({
+      where: { email: body.email },
+      relations: { checkpoints: true },
+    });
     return orders;
   }
 
