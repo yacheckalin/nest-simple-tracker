@@ -1,7 +1,7 @@
 version: '3'
 services:
-  postgres:
-    container_name: postgres
+  postgres_dev:
+    container_name: postgres_dev
     image: postgres:latest
     restart: always
     ports:
@@ -12,6 +12,18 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=nest-tracker-app
+  postgres_test:
+    container_name: postgres_test
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5556:5432'
+    networks:
+      - postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=nest-tracker-app-test
 
 networks:
   postgres:
