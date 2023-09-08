@@ -4,6 +4,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
+  JoinColumn,
 } from 'typeorm';
 import { Checkpoint } from './checkpoint.entity';
 
@@ -20,7 +21,9 @@ export class Order {
   @Column({ type: 'varchar', length: 60, nullable: false })
   orderNumber!: string;
 
-  @OneToMany(() => Checkpoint, (checkpoint) => checkpoint.trackingNumber)
+  @OneToMany(() => Checkpoint, (checkpoint) => checkpoint.trackingNumber, {
+    cascade: true,
+  })
   checkpoints: Checkpoint[];
 
   @Column({ type: 'varchar', length: 30, nullable: true })
