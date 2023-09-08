@@ -18,27 +18,46 @@ export class OrdersService {
   ) {}
 
   async getAllOrders(): Promise<Order[] | []> {
-    const orders = await this.repo.find();
+    const orders = await this.repo.find({ relations: { checkpoints: true } });
     return orders;
   }
 
+  async getOrderById(id: number): Promise<Order> {
+    const order = await this.repo.findOne({
+      where: { id },
+      relations: { checkpoints: true },
+    });
+    if (!order) {
+      throw new NotFoundException(`Coud not found order with id: ${id}`);
+    }
+    return order;
+  }
+
   async getOrderByNumber(orderNumber: string): Promise<Order> {
-    const order = await this.repo.findOne({ where: { orderNumber } });
+    const order = await this.repo.findOne({
+      where: { orderNumber },
+      relations: { checkpoints: true },
+    });
     if (!order) {
       throw new NotFoundException(
-        `Cound not found order with number: ${orderNumber}`,
+        `Coud not found order with number: ${orderNumber}`,
       );
     }
-
     return order;
   }
 
   async getOrdersByCustomerEmail(body: FilterOrdersDto): Promise<Order[] | []> {
     try {
-      const orders = await this.repo.find({
-        where: { email: body.email },
-        relations: { checkpoints: true },
-      });
+      // const orders = await this.repo.find({
+      //   where: { email: body.email },
+      //   relations: { checkpoints: true },
+      // });
+      const orders = await this.repo
+        .createQueryBuilder('orders')
+        .leftJoinAndSelect('orders.checkpoints', 'checkpoints')
+        .where('orders.email = :email', { email: body.email })
+        .getMany();
+
       return orders;
     } catch (e) {
       throw new BadRequestException(e.message);

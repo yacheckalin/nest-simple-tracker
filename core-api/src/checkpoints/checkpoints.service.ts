@@ -25,7 +25,6 @@ export class CheckpointsService {
   async getAllCheckpointsByOrderNumber(
     order: string,
   ): Promise<Checkpoint[] | []> {
-    console.log(order);
     const checkpoints = await this.repo
       .createQueryBuilder('checkpoints')
       .innerJoinAndSelect('checkpoints.order', 'orders')

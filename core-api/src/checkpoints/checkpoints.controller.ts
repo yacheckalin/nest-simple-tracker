@@ -12,7 +12,7 @@ import {
 import { CheckpointsService } from './checkpoints.service';
 import { Checkpoint } from '../model/checkpoint.entity';
 import { CreateCheckpointDto } from './dto/create-checkpoint.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Checkpoints')
@@ -41,7 +41,19 @@ export class CheckpointsController {
     return this.checkpointsService.createCheckpoint(body);
   }
 
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Import data via csv-file' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @Post('/import-csv')
   @UseInterceptors(FileInterceptor('file'))
   importCheckpoints(
