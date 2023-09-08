@@ -48,6 +48,14 @@ export class OrdersController {
     return this.ordersService.getOrdersByCustomerEmail(body);
   }
 
+  @ApiOperation({ summary: 'Get all articles by tracking number' })
+  @Get('/get-articles/:trackingNumber')
+  getArticlesInfoByTrackingNumber(
+    @Param('trackingNumber') trackingNumber: string,
+  ): Promise<Partial<Order>[]> {
+    return this.ordersService.getAllArticlesByTrackingNumber(trackingNumber);
+  }
+
   @ApiOperation({ summary: 'Create new order' })
   @Post()
   createOrder(@Body() body: CreateOrderDto): Promise<Order> {

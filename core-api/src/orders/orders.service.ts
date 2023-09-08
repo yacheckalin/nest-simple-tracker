@@ -18,7 +18,10 @@ export class OrdersService {
   ) {}
 
   async getAllOrders(): Promise<Order[] | []> {
-    const orders = await this.repo.find({ relations: { checkpoints: true } });
+    const orders = await this.repo.find({
+      relations: { checkpoints: true },
+      order: { checkpoints: { timestamp: 'DESC' } },
+    });
     return orders;
   }
 
@@ -46,16 +49,48 @@ export class OrdersService {
     return order;
   }
 
+  async getAllArticlesByTrackingNumber(
+    trackingNumber: string,
+  ): Promise<Partial<Order>[]> {
+    const orders = await this.repo.find({
+      where: { trackingNumber },
+      order: { quantity: 'DESC' },
+    });
+
+    if (!orders || !orders.length) {
+      throw new NotFoundException(
+        `Could not found any orders with trackingNumber: ${trackingNumber}`,
+      );
+    }
+
+    return orders.map(
+      ({
+        id,
+        orderNumber,
+        articleNumber,
+        articleImageUrl,
+        productName,
+        quantity,
+        trackingNumber,
+      }) => ({
+        id,
+        orderNumber,
+        articleNumber,
+        articleImageUrl,
+        productName,
+        quantity,
+        trackingNumber,
+      }),
+    );
+  }
+
   async getOrdersByCustomerEmail(body: FilterOrdersDto): Promise<Order[] | []> {
     try {
-      // const orders = await this.repo.find({
-      //   where: { email: body.email },
-      //   relations: { checkpoints: true },
-      // });
       const orders = await this.repo
         .createQueryBuilder('orders')
         .leftJoinAndSelect('orders.checkpoints', 'checkpoints')
         .where('orders.email = :email', { email: body.email })
+        .orderBy('checkpoints.timestamp', 'DESC')
         .getMany();
 
       return orders;
