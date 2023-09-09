@@ -6,7 +6,7 @@ const FilterForm = () => {
   const [email, setEmail] = useState("");
   const router = useRouter();
 
-  const onFilterHandler = (
+  const onSubmitFilterHandler = (
     e: React.FormEvent<HTMLButtonElement | HTMLFormElement>
   ) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ const FilterForm = () => {
     }
   };
 
-  const onChangeFilterHandler = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeFilterHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { value } = e.target as HTMLInputElement;
     setEmail(value);
@@ -26,7 +26,7 @@ const FilterForm = () => {
     <div className="container mx-auto flex-auto">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
-        onSubmit={onFilterHandler}
+        onSubmit={onSubmitFilterHandler}
       >
         <div className="mb-4 text-gray-700">
           <p>Please enter your email address to see your recent orders</p>
@@ -52,7 +52,7 @@ const FilterForm = () => {
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
-            onClick={onFilterHandler}
+            onClick={onSubmitFilterHandler}
           >
             SEND
           </button>

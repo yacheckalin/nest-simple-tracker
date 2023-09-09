@@ -25,3 +25,12 @@ export interface OrderI {
   quantity: number;
   productName: string;
 }
+
+export interface ArticleI {
+  id: number;
+  orderNumber: string;
+  quantity: number;
+  articleNumber: string;
+  articleImageUrl: string;
+  productName: string;
+}
