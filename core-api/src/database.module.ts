@@ -19,6 +19,8 @@ import { Checkpoint } from './model/checkpoint.entity';
         database: config.get('POSTGRES_DB'),
         entities: [Customer, Order, Checkpoint],
         synchronize: true,
+        dropSchema:
+          process.env.NODE_ENV !== 'production' || 'development' ? true : false,
       }),
     }),
   ],
